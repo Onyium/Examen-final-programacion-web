@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipo - Galería</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">🎨 GALERÍA DE ARTE Y SUBASTAS</div>
+        <nav class="nav-links">
+            <a href="index.html">🎮 Prototipo</a>
+            <a href="crud.html">📦 Inventario (CRUD)</a>
+            <a href="integrantes.html" class="active">👥 Equipo (CRUD)</a>
+        </nav>
+    </header>
+
+    <main class="team-layout">
+        <div class="section-header">
+            <div>
+                <h2>Equipo de Estudiantes Desarrolladores</h2>
+                <p class="subtitle">Mantenimiento de Datos del Grupo de Trabajo (CRUD de Memoria)</p>
+            </div>
+            <button class="btn-primary" onclick="abrirModalIntegrante()">➕ Registrar Integrante</button>
+        </div>
+
+        <div id="gridIntegrantes" class="cards-grid">
+            </div>
+    </main>
+
+    <dialog id="modalIntegrante" class="modal">
+        <form method="dialog" id="formIntegrante">
+            <h3 id="modalIntTitulo">Nuevo Integrante</h3>
+            <div class="form-group">
+                <label>Nombre Completo</label>
+                <input type="text" id="intNombre" required>
+            </div>
+            <div class="form-group">
+                <label>Rol / Especialidad</label>
+                <input type="text" id="intRol" required>
+            </div>
+            <div class="form-group">
+                <label>Carnet / Código</label>
+                <input type="text" id="intCarnet" required>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn-danger" onclick="cerrarModalIntegrante()">Cancelar</button>
+                <button type="submit" class="btn-primary">Guardar</button>
+            </div>
+        </form>
+    </dialog>
+
+    <div id="toast" class="toast"></div>
+    <script src="js/principal.js"></script>
+</body>
+</html>

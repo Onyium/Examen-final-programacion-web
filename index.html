@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galería de Arte y Subastas</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">🎨 GALERÍA DE ARTE Y SUBASTAS</div>
+        <nav class="nav-links">
+            <a href="index.html" class="active">🎮 Prototipo</a>
+            <a href="crud.html">📦 Inventario (CRUD)</a>
+            <a href="integrantes.html">👥 Equipo (CRUD)</a>
+        </nav>
+    </header>
+
+    <main class="dashboard-grid">
+        <section class="gallery-section">
+            <div class="section-header">
+                <h2>🖼️ GALERÍA EN VENTA / SUBASTA</h2>
+                <div class="controls">
+                    <select id="filtroEstilo" onchange="filtrarYOrdenar()">
+                        <option value="Todos">Todos los estilos</option>
+                        <option value="Postimpresionismo">Postimpresionismo</option>
+                        <option value="Surrealismo">Surrealismo</option>
+                        <option value="Expresionismo">Expresionismo</option>
+                        <option value="Renacimiento">Renacimiento</option>
+                        <option value="Cubismo">Cubismo</option>
+                    </select>
+                    <button onclick="ordenarPorValor()" class="btn-secondary">Ordenar por Puja ⬆️</button>
+                </div>
+            </div>
+            <div id="galeriaContenedor" class="cards-grid">
+                </div>
+        </section>
+
+        <section class="vip-section">
+            <h2>👑 Salón de Exhibición VIP</h2>
+            <div id="zonaVIP" class="drop-zone">
+                <p>Arrastra obras artísticas VIP aquí</p>
+                </div>
+        </section>
+    </main>
+
+    <dialog id="modalPuja" class="modal">
+        <form method="dialog" id="formPuja">
+            <h3>Registrar Oferta Económica</h3>
+            <p id="obraTituloPuja"></p>
+            <p>Puja actual: <strong id="pujaActualTexto"></strong></p>
+            <div class="form-group">
+                <label>Nueva Puja ($):</label>
+                <input type="number" id="nuevaPuja" required min="0">
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn-danger" onclick="cerrarModalPuja()">Cancelar</button>
+                <button type="submit" class="btn-primary">Confirmar Oferta</button>
+            </div>
+        </form>
+    </dialog>
+
+    <div id="toast" class="toast"></div>
+    <script src="js/principal.js"></script>
+</body>
+</html>

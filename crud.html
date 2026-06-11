@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventario - Galería</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">🎨 GALERÍA DE ARTE Y SUBASTAS</div>
+        <nav class="nav-links">
+            <a href="index.html">🎮 Prototipo</a>
+            <a href="crud.html" class="active">📦 Inventario (CRUD)</a>
+            <a href="integrantes.html">👥 Equipo (CRUD)</a>
+        </nav>
+    </header>
+
+    <main class="crud-layout">
+        <aside class="crud-form">
+            <h2>➕ REGISTRAR NUEVO ELEMENTO</h2>
+            <p class="subtitle">Sincronizado con memoria local</p>
+            <form id="formObra">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Título Obra</label>
+                        <input type="text" id="titulo" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Artista Pintor</label>
+                        <input type="text" id="artista" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Puja Inicial ($)</label>
+                        <input type="number" id="puja" required min="1">
+                    </div>
+                    <div class="form-group">
+                        <label>Icono (Emoji/URL)</label>
+                        <input type="text" id="icono" required placeholder="Ej: 🎨">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Estilo Artístico</label>
+                    <select id="estilo">
+                        <option value="Postimpresionismo">Postimpresionismo</option>
+                        <option value="Surrealismo">Surrealismo</option>
+                        <option value="Expresionismo">Expresionismo</option>
+                        <option value="Renacimiento">Renacimiento</option>
+                        <option value="Cubismo">Cubismo</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary w-100">Guardar en Arreglo Local</button>
+            </form>
+        </aside>
+
+        <section class="crud-table-container">
+            <div class="section-header">
+                <h2>GALERÍA PINTURAS</h2>
+                <span class="subtitle">Arreglo Global en Memoria</span>
+            </div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ICON</th>
+                        <th>TÍTULO OBRA</th>
+                        <th>ARTISTA</th>
+                        <th>PUJA ACTUAL</th>
+                        <th>ESTILO</th>
+                        <th>ACCIONES</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaObras">
+                    </tbody>
+            </table>
+        </section>
+    </main>
+
+    <div id="toast" class="toast"></div>
+    <script src="js/principal.js"></script>
+</body>
+</html>
