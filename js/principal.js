@@ -9,12 +9,7 @@
 // 1. INICIALIZACIÓN DE ARREGLOS EN MEMORIA
 // ==========================================
 
-// ==========================================
-// 1. INICIALIZACIÓN DE ARREGLOS EN MEMORIA
-// ==========================================
-
-// 10 registros precargados obligatorios para la galería
-// Asegúrate de guardar las imágenes en la carpeta 'img/productos/' con estos mismos nombres
+// 10 registros precargados obligatorios para la galería con rutas relativas a 'img/productos/'
 const obrasPreCargadas = [
     { id: 1, titulo: "Noche Estrellada", artista: "Vincent Van Gogh", puja: 120000, icono: "img/productos/obra1.jpg", estilo: "Postimpresionismo", vip: false },
     { id: 2, titulo: "La Persistencia de la Memoria", artista: "Salvador Dalí", puja: 95000, icono: "img/productos/obra2.jpg", estilo: "Surrealismo", vip: false },
@@ -28,8 +23,7 @@ const obrasPreCargadas = [
     { id: 10, titulo: "Creación de Adán", artista: "Miguel Ángel", puja: 400000, icono: "img/productos/obra10.jpg", estilo: "Renacimiento", vip: false }
 ];
 
-// Integrantes del equipo precargados exactamente con los datos de tu captura
-// Solo renombra las fotos de tus compañeros a integrante1.jpg, integrante2.jpg, etc., dentro de 'img/equipo/'
+// Integrantes del equipo precargados exactamente con los datos reales de tus capturas
 const equipoPreCargado = [
     { id: 1, nombre: "BRANDON GEOVANNY RIVERA OLIVO", rol: "Ciberseguridad", carnet: "27581", imagen: "img/equipo/integrante1.jpg" },
     { id: 2, nombre: "JONATHAN ELI MAYE AREVALO", rol: "Full Stack", carnet: "27291", imagen: "img/equipo/integrante2.jpg" },
@@ -38,19 +32,20 @@ const equipoPreCargado = [
     { id: 5, nombre: "GILBERTO JOSE QUINTANILLA SARMIENTO", rol: "Analista", carnet: "27729", imagen: "img/equipo/integrante5.jpg" }
 ];
 
-// Carga del estado desde LocalStorage o arreglos por defecto
-let obras = JSON.parse(localStorage.getItem('galeria_obras')) || obrasPreCargadas;
-let integrantes = JSON.parse(localStorage.getItem('galeria_equipo')) || equipoPreCargado;
+// SOLUCIÓN DE CACHÉ: Se renombraron las llaves a '_final' para forzar al navegador a leer el código nuevo
+let obras = JSON.parse(localStorage.getItem('galeria_obras_final')) || obrasPreCargadas;
+let integrantes = JSON.parse(localStorage.getItem('galeria_equipo_final')) || equipoPreCargado;
 
-// Variables de control de UI
+// Variables de control de la interfaz
 let obraActualId = null;
 let ordenAscendente = true;
+
 // ==========================================
 // 2. CONTROLADOR DE EVENTOS DOM (Ciclo de Vida)
 // ==========================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Inicialización según la página HTML activa en el navegador
+    // Inicialización selectiva dependiendo de la vista HTML en la que se encuentre el usuario
     if (document.getElementById('galeriaContenedor')) {
         renderizarGaleria();
         inicializarDragAndDrop();
@@ -71,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /**
  * FUNCIÓN 1: Renderizar Galería Principal y Salón VIP
- * Dibuja de manera dinámica las tarjetas de las obras aplicando validación de imágenes/emojis.
+ * Manipula el DOM para construir las tarjetas dinámicamente evaluando si el recurso es imagen o emoji.
  */
 function renderizarGaleria(obrasFiltradas = obras) {
     const contenedor = document.getElementById('galeriaContenedor');
@@ -79,7 +74,7 @@ function renderizarGaleria(obrasFiltradas = obras) {
     
     if (!contenedor) return;
 
-    // Limpiar contenedores cuidando la persistencia estructural
+    // Limpieza estructural de los contenedores
     contenedor.innerHTML = '';
     const elementosVIP = zonaVIP.querySelectorAll('.card');
     elementosVIP.forEach(el => el.remove());
@@ -90,7 +85,7 @@ function renderizarGaleria(obrasFiltradas = obras) {
         card.draggable = true;
         card.dataset.id = obra.id;
         
-        // Validación dinámica de recursos: comprueba si es un archivo de imagen o un emoji de respaldo
+        // Validación de recursos: detecta extensiones o rutas relativas
         const esRutaImagen = obra.icono && (obra.icono.includes('.') || obra.icono.includes('/'));
         const contenidoVisual = esRutaImagen 
             ? `<img src="${obra.icono}" alt="${obra.titulo}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;">`
@@ -106,13 +101,13 @@ function renderizarGaleria(obrasFiltradas = obras) {
             <button class="btn-secondary w-100" style="margin-top: 10px" onclick="abrirModalPuja(${obra.id})">Pujar</button>
         `;
 
-        // Evento nativo DragStart para la transferencia de identificadores
+        // Evento nativo de arrastre
         card.addEventListener('dragstart', (e) => {
             e.dataTransfer.setData('text/plain', obra.id);
             e.dataTransfer.effectAllowed = 'move';
         });
 
-        // Clasificación de destino en el DOM basado en el estado lógico
+        // Ubicación lógica en el contenedor correspondiente
         if (obra.vip) {
             zonaVIP.appendChild(card);
         } else {
@@ -123,7 +118,7 @@ function renderizarGaleria(obrasFiltradas = obras) {
 
 /**
  * FUNCIÓN 2: Implementación de Drag & Drop Nativo
- * Captura y procesa los eventos dragover, dragleave y drop para actualizar el estado del catálogo.
+ * Administra los estados visuales y transfiere datos en memoria local tras el drop.
  */
 function inicializarDragAndDrop() {
     const zonaVIP = document.getElementById('zonaVIP');
@@ -149,12 +144,12 @@ function inicializarDragAndDrop() {
             const idObra = parseInt(e.dataTransfer.getData('text/plain'));
             const esVIP = zona.id === 'zonaVIP';
             
-            const indice = obras.findIndex(o => o.id === idObra);
-            if (indice !== -1) {
-                obras[indice].vip = esVIP;
+            const intent = obras.findIndex(o => o.id === idObra);
+            if (intent !== -1) {
+                obras[intent].vip = esVIP;
                 guardarEnMemoria();
                 renderizarGaleria();
-                mostrarMensaje('Estado de exhibición actualizado', 'success');
+                mostrarMensaje('Posición de la obra actualizada', 'success');
             }
         });
     });
@@ -162,7 +157,7 @@ function inicializarDragAndDrop() {
 
 /**
  * FUNCIÓN 3: Agregar y Validar Obras (Inventario CRUD)
- * Procesa el formulario, realiza validaciones de negocio y autocompleta rutas locales de productos.
+ * Valida reglas de negocio del formulario e integra las rutas hacia 'img/productos/'.
  */
 function agregarObra(e) {
     e.preventDefault();
@@ -173,13 +168,12 @@ function agregarObra(e) {
     let entradaIcono = document.getElementById('icono').value.trim();
     const estilo = document.getElementById('estilo').value;
 
-    // Validación obligatoria de datos numéricos
     if (puja <= 0) {
-        mostrarMensaje('Error: La puja inicial debe ser mayor a $0', 'error');
+        mostrarMensaje('Error: La puja debe ser mayor a cero', 'error');
         return;
     }
 
-    // Autocompletado inteligente hacia la carpeta local del proyecto
+    // Formateo automático de rutas locales de imágenes
     if (entradaIcono.includes('.') && !entradaIcono.startsWith('img/') && !entradaIcono.startsWith('http')) {
         entradaIcono = `img/productos/${entradaIcono}`;
     }
@@ -198,12 +192,12 @@ function agregarObra(e) {
     guardarEnMemoria();
     renderizarTablaCRUD();
     e.target.reset();
-    mostrarMensaje('Obra incorporada al inventario', 'success');
+    mostrarMensaje('Obra agregada exitosamente', 'success');
 }
 
 /**
  * FUNCIÓN 4: Filtrado y Ordenación Algorítmica del Catálogo
- * Realiza el ordenamiento por valor monetario y aplica filtros por categorías de estilos artísticos.
+ * Ordena mediante la evaluación secuencial de valores de puja monetaria.
  */
 function filtrarYOrdenar() {
     const estiloFiltro = document.getElementById('filtroEstilo').value;
@@ -216,22 +210,21 @@ function ordenarPorValor() {
     const estiloFiltro = document.getElementById('filtroEstilo').value;
     let arregloAOrdenar = estiloFiltro === 'Todos' ? [...obras] : obras.filter(o => o.estilo === estiloFiltro);
     
-    // Algoritmo de ordenación nativo basado en el precio de puja
     arregloAOrdenar.sort((a, b) => ordenAscendente ? a.puja - b.puja : b.puja - a.puja);
     renderizarGaleria(arregloAOrdenar);
-    mostrarMensaje(`Ordenado de ${ordenAscendente ? 'menor a mayor' : 'mayor a menor'} valor`, 'success');
+    mostrarMensaje(`Ordenado de ${ordenAscendente ? 'menor a mayor' : 'mayor a menor'}`, 'success');
 }
 
 /**
- * FUNCIÓN 5: Gestión del Registro de Ofertas Económicas (Ventanas Modales)
- * Controla el flujo interactivo de validación de ofertas simuladas utilizando la API HTML5 <dialog>.
+ * FUNCIÓN 5: Control de Ventanas Modales y Validación de Ofertas
+ * Despliega modales nativos controlando que las nuevas ofertas venzan la puja anterior.
  */
 function abrirModalPuja(id) {
     obraActualId = id;
     const obra = obras.find(o => o.id === id);
     document.getElementById('obraTituloPuja').textContent = obra.titulo;
     document.getElementById('pujaActualTexto').textContent = `$${obra.puja.toLocaleString()}`;
-    document.getElementById('nuevaPuja').value = obra.puja + 500; // Incremento sugerido estándar
+    document.getElementById('nuevaPuja').value = obra.puja + 250; // Incremento sugerido base
     document.getElementById('modalPuja').showModal();
 }
 
@@ -240,7 +233,6 @@ function cerrarModalPuja() {
     obraActualId = null;
 }
 
-// Vinculación del envío del formulario del diálogo de pujas
 const formPuja = document.getElementById('formPuja');
 if (formPuja) {
     formPuja.addEventListener('submit', (e) => {
@@ -248,15 +240,14 @@ if (formPuja) {
         const nuevaPuja = parseFloat(document.getElementById('nuevaPuja').value);
         const obra = obras.find(o => o.id === obraActualId);
 
-        // Validación estricta: la oferta debe superar el valor histórico anterior
         if (nuevaPuja > obra.puja) {
             obra.puja = nuevaPuja;
             guardarEnMemoria();
             renderizarGaleria();
             cerrarModalPuja();
-            mostrarMensaje('¡Oferta aceptada y registrada!', 'success');
+            mostrarMensaje('¡Puja registrada con éxito!', 'success');
         } else {
-            mostrarMensaje('Error: La oferta debe ser estrictamente superior a la puja actual', 'error');
+            mostrarMensaje('Error: La oferta debe superar la puja actual', 'error');
         }
     });
 }
@@ -265,9 +256,6 @@ if (formPuja) {
 // 4. FUNCIONES AUXILIARES Y GESTIÓN DE EQUIPO
 // ==========================================
 
-/**
- * Renders de las tablas de administración (Inventario)
- */
 function renderizarTablaCRUD() {
     const tbody = document.getElementById('tablaObras');
     if (!tbody) return;
@@ -295,16 +283,16 @@ function renderizarTablaCRUD() {
 }
 
 function eliminarObra(id) {
-    if (confirm('¿Seguro que desea eliminar de forma permanente esta obra?')) {
+    if (confirm('¿Desea eliminar este registro de la memoria local?')) {
         obras = obras.filter(o => o.id !== id);
         guardarEnMemoria();
         renderizarTablaCRUD();
-        mostrarMensaje('Obra eliminada de la memoria', 'success');
+        mostrarMensaje('Registro eliminado', 'success');
     }
 }
 
 /**
- * Gestión del Equipo de Trabajo (Página integrantes.html)
+ * CRUD Dinámico del Equipo (integrantes.html)
  */
 function renderizarEquipo() {
     const grid = document.getElementById('gridIntegrantes');
@@ -343,14 +331,14 @@ function guardarIntegrante(e) {
     
     let entradaImagen = document.getElementById('intImagen').value.trim();
     
-    // Autocompletado de carpetas relativas del espacio de trabajo de equipo
+    // Autocompletado de imágenes de la carpeta equipo
     if (!entradaImagen.startsWith('img/') && !entradaImagen.startsWith('http') && entradaImagen !== "") {
         entradaImagen = `img/equipo/${entradaImagen}`;
     }
 
     const nuevoInt = {
         id: Date.now(),
-        nombre: document.getElementById('intNombre').value.trim(),
+        nombre: document.getElementById('intNombre').value.trim().toUpperCase(),
         rol: document.getElementById('intRol').value.trim(),
         carnet: document.getElementById('intCarnet').value.trim(),
         imagen: entradaImagen || "👨‍🎓" 
@@ -361,11 +349,11 @@ function guardarIntegrante(e) {
     renderizarEquipo();
     cerrarModalIntegrante();
     e.target.reset();
-    mostrarMensaje('Integrante registrado exitosamente', 'success');
+    mostrarMensaje('Integrante guardado en memoria', 'success');
 }
 
 function eliminarIntegrante(id) {
-    if (confirm('¿Remover a este integrante del equipo de trabajo?')) {
+    if (confirm('¿Remover a este integrante del grupo?')) {
         integrantes = integrantes.filter(i => i.id !== id);
         guardarEnMemoria();
         renderizarEquipo();
@@ -374,11 +362,11 @@ function eliminarIntegrante(id) {
 }
 
 /**
- * Persistencia interna y Toasts de notificación
+ * Persistencia en LocalStorage compartida entre ventanas
  */
 function guardarEnMemoria() {
-    localStorage.setItem('galeria_obras', JSON.stringify(obras));
-    localStorage.setItem('galeria_equipo', JSON.stringify(integrantes));
+    localStorage.setItem('galeria_obras_final', JSON.stringify(obras));
+    localStorage.setItem('galeria_equipo_final', JSON.stringify(integrantes));
 }
 
 function mostrarMensaje(msg, tipo) {
