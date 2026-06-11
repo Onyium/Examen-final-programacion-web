@@ -2,7 +2,6 @@
 // 1. INICIALIZACIÓN DE ARREGLOS EN MEMORIA
 // ==========================================
 
-// Pre-carga de 10 registros solicitados
 const obrasPreCargadas = [
     { id: 1, titulo: "Noche Estrellada", artista: "Vincent Van Gogh", puja: 120000, icono: "🌌", estilo: "Postimpresionismo", vip: false },
     { id: 2, titulo: "La Persistencia de la Memoria", artista: "Salvador Dalí", puja: 95000, icono: "⏳", estilo: "Surrealismo", vip: false },
@@ -16,10 +15,11 @@ const obrasPreCargadas = [
     { id: 10, titulo: "Creación de Adán", artista: "Miguel Ángel", puja: 400000, icono: "🤝", estilo: "Renacimiento", vip: false }
 ];
 
+// Arreglo actualizado con la propiedad 'imagen' y rutas locales
 const equipoPreCargado = [
-    { id: 1, nombre: "Jonathan Eli", rol: "Full-Stack Developer", carnet: "JE202601", icono: "👨‍💻" },
-    { id: 2, nombre: "Brandon", rol: "Frontend Developer", carnet: "BR202602", icono: "👨‍💻" },
-    { id: 3, nombre: "Katherine Peña", rol: "JS Developer", carnet: "KP202604", icono: "👩‍💻" }
+    { id: 1, nombre: "Jonathan Eli", rol: "Ingeniería en Sistemas", carnet: "JE202601", imagen: "imgs/equipo/integrante01.jpg" },
+    { id: 2, nombre: "Brandon", rol: "Frontend Developer", carnet: "BR202602", imagen: "imgs/equipo/integrante03.jpg" },
+    { id: 3, nombre: "Katherine Peña", rol: "JS Developer", carnet: "KP202604", imagen: "imgs/equipo/integrante04.jpg" }
 ];
 
 // Carga desde localStorage o uso de valores por defecto
@@ -35,7 +35,6 @@ let ordenAscendente = true;
 // ==========================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Detectar en qué página estamos para inicializar los datos correspondientes
     if (document.getElementById('galeriaContenedor')) {
         renderizarGaleria();
         inicializarDragAndDrop();
@@ -50,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Función 1: Renderizar Galería Principal y VIP
 function renderizarGaleria(obrasFiltradas = obras) {
     const contenedor = document.getElementById('galeriaContenedor');
     const zonaVIP = document.getElementById('zonaVIP');
@@ -59,7 +57,6 @@ function renderizarGaleria(obrasFiltradas = obras) {
 
     contenedor.innerHTML = '';
     
-    // Limpiar zona VIP manteniendo el texto guía
     const elementosVIP = zonaVIP.querySelectorAll('.card');
     elementosVIP.forEach(el => el.remove());
 
@@ -77,7 +74,6 @@ function renderizarGaleria(obrasFiltradas = obras) {
             <button class="btn-secondary w-100" style="margin-top: 10px" onclick="abrirModalPuja(${obra.id})">Pujar</button>
         `;
 
-        // Evento nativo DragStart
         card.addEventListener('dragstart', (e) => {
             e.dataTransfer.setData('text/plain', obra.id);
             e.dataTransfer.effectAllowed = 'move';
@@ -95,7 +91,6 @@ function renderizarGaleria(obrasFiltradas = obras) {
 // 3. FUNCIONES DE DRAG & DROP (Nativo)
 // ==========================================
 
-// Función 2: Implementación Drag & Drop
 function inicializarDragAndDrop() {
     const zonaVIP = document.getElementById('zonaVIP');
     const contenedorGeneral = document.getElementById('galeriaContenedor');
@@ -104,7 +99,7 @@ function inicializarDragAndDrop() {
         if(!zona) return;
         
         zona.addEventListener('dragover', (e) => {
-            e.preventDefault(); // Necesario para permitir el drop
+            e.preventDefault(); 
             zona.classList.add('dragover');
             e.dataTransfer.dropEffect = 'move';
         });
@@ -120,7 +115,6 @@ function inicializarDragAndDrop() {
             const idObra = parseInt(e.dataTransfer.getData('text/plain'));
             const esVIP = zona.id === 'zonaVIP';
             
-            // Actualizar arreglo global y guardar
             const indice = obras.findIndex(o => o.id === idObra);
             if(indice !== -1) {
                 obras[indice].vip = esVIP;
@@ -136,7 +130,6 @@ function inicializarDragAndDrop() {
 // 4. FUNCIONES DE CRUD Y MODALES
 // ==========================================
 
-// Función 3: Agregar/Validar Registro (Inventario)
 function agregarObra(e) {
     e.preventDefault();
     
@@ -152,7 +145,7 @@ function agregarObra(e) {
     }
 
     const nuevaObra = {
-        id: Date.now(), // ID único simulado
+        id: Date.now(), 
         titulo,
         artista,
         puja,
@@ -202,7 +195,6 @@ function renderizarTablaCRUD() {
 // 5. LÓGICA DE NEGOCIO (Pujas, Filtros, Orden)
 // ==========================================
 
-// Función 4: Validar y Procesar Oferta Económica
 function abrirModalPuja(id) {
     obraActualId = id;
     const obra = obras.find(o => o.id === id);
@@ -217,7 +209,6 @@ function cerrarModalPuja() {
     obraActualId = null;
 }
 
-// Listener para el form del Modal de Pujas
 const formPuja = document.getElementById('formPuja');
 if(formPuja) {
     formPuja.addEventListener('submit', (e) => {
@@ -237,7 +228,6 @@ if(formPuja) {
     });
 }
 
-// Función 5: Algoritmo de Ordenación y Filtrado
 function filtrarYOrdenar() {
     const estiloFiltro = document.getElementById('filtroEstilo').value;
     let filtradas = estiloFiltro === 'Todos' ? [...obras] : obras.filter(o => o.estilo === estiloFiltro);
@@ -255,7 +245,7 @@ function ordenarPorValor() {
 }
 
 // ==========================================
-// 6. UTILIDADES Y CRUD DE EQUIPO
+// 6. UTILIDADES Y CRUD DE EQUIPO (CON IMÁGENES)
 // ==========================================
 
 function guardarEnMemoria() {
@@ -270,16 +260,24 @@ function mostrarMensaje(msg, tipo) {
     setTimeout(() => toast.className = 'toast', 3000);
 }
 
-// Lógica de Integrantes (Equipo)
 function renderizarEquipo() {
     const grid = document.getElementById('gridIntegrantes');
     if(!grid) return;
     
     grid.innerHTML = '';
     integrantes.forEach(int => {
+        // Validación: si contiene punto o pleca, renderiza <img>, de lo contrario lo trata como texto/emoji
+        const esRutaImagen = int.imagen && (int.imagen.includes('.') || int.imagen.includes('/'));
+        
+        const contenidoVisual = esRutaImagen 
+            ? `<img src="${int.imagen}" alt="${int.nombre}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;">`
+            : int.imagen;
+
         grid.innerHTML += `
             <div class="card" style="display: flex; gap: 1rem; align-items: center; cursor: default;">
-                <div style="font-size: 3rem; background: #000; padding: 10px; border-radius: 8px;">${int.icono}</div>
+                <div style="width: 80px; height: 80px; background: #1a1a1a; display: flex; justify-content: center; align-items: center; border-radius: 8px; overflow: hidden; flex-shrink: 0; border: 1px solid var(--border-color);">
+                    ${contenidoVisual}
+                </div>
                 <div style="flex: 1">
                     <h3 style="margin-bottom: 5px">${int.nombre}</h3>
                     <p style="color: var(--primary); margin-bottom: 5px">${int.rol}</p>
@@ -298,19 +296,28 @@ function cerrarModalIntegrante() { document.getElementById('modalIntegrante').cl
 
 function guardarIntegrante(e) {
     e.preventDefault();
+    
+    let entradaImagen = document.getElementById('intImagen').value.trim();
+    
+    // Autocompletar la ruta si el usuario solo pone el nombre del archivo
+    if (!entradaImagen.startsWith('imgs/') && !entradaImagen.startsWith('http') && entradaImagen !== "") {
+        entradaImagen = `imgs/equipo/${entradaImagen}`;
+    }
+
     const nuevoInt = {
         id: Date.now(),
         nombre: document.getElementById('intNombre').value,
         rol: document.getElementById('intRol').value,
         carnet: document.getElementById('intCarnet').value,
-        icono: "👨‍🎓"
+        imagen: entradaImagen || "👨‍🎓" 
     };
+    
     integrantes.push(nuevoInt);
     guardarEnMemoria();
     renderizarEquipo();
     cerrarModalIntegrante();
     e.target.reset();
-    mostrarMensaje('Integrante agregado', 'success');
+    mostrarMensaje('Integrante agregado exitosamente', 'success');
 }
 
 function eliminarIntegrante(id) {

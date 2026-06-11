@@ -9,6 +9,7 @@
     --accent-orange: #ff7f50;
     --danger: #ff4757;
     --border-color: #333;
+    --success: #2ed573;
 }
 
 * {
@@ -67,6 +68,7 @@ body {
     flex-wrap: wrap;
     gap: 1.5rem;
     margin-top: 1rem;
+    padding: 1rem;
 }
 
 .card {
@@ -113,11 +115,14 @@ body {
 .drop-zone.dragover { border-color: var(--primary); background-color: rgba(0, 168, 255, 0.05); }
 
 /* CRUD Layout */
+.crud-layout, .team-layout {
+    padding: 2rem;
+}
+
 .crud-layout {
     display: grid;
     grid-template-columns: 350px 1fr;
     gap: 2rem;
-    padding: 2rem;
 }
 
 .crud-form {
