@@ -299,9 +299,9 @@ function guardarIntegrante(e) {
     
     let entradaImagen = document.getElementById('intImagen').value.trim();
     
-    // Autocompletar la ruta si el usuario solo pone el nombre del archivo
-    if (!entradaImagen.startsWith('imgs/') && !entradaImagen.startsWith('http') && entradaImagen !== "") {
-        entradaImagen = `imgs/equipo/${entradaImagen}`;
+    // CORRECCIÓN: Cambiamos 'imgs/' por 'img/' para que coincida con tu carpeta
+    if (!entradaImagen.startsWith('img/') && !entradaImagen.startsWith('http') && entradaImagen !== "") {
+        entradaImagen = `img/equipo/${entradaImagen}`;
     }
 
     const nuevoInt = {
@@ -319,7 +319,6 @@ function guardarIntegrante(e) {
     e.target.reset();
     mostrarMensaje('Integrante agregado exitosamente', 'success');
 }
-
 function eliminarIntegrante(id) {
     if(confirm('¿Eliminar integrante?')) {
         integrantes = integrantes.filter(i => i.id !== id);
