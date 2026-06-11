@@ -9,25 +9,33 @@
 // 1. INICIALIZACIÓN DE ARREGLOS EN MEMORIA
 // ==========================================
 
-// 12 registros precargados con nombres de archivos de imagen correspondientes a la carpeta 'img/productos/'
+// ==========================================
+// 1. INICIALIZACIÓN DE ARREGLOS EN MEMORIA
+// ==========================================
+
+// 10 registros precargados obligatorios para la galería
+// Asegúrate de guardar las imágenes en la carpeta 'img/productos/' con estos mismos nombres
 const obrasPreCargadas = [
-    { id: 1, titulo: "Noche Estrellada", artista: "Vincent Van Gogh", puja: 120000, icono: "img/productos/noche_estrellada.jpg", estilo: "Postimpresionismo", vip: false },
-    { id: 2, titulo: "La Persistencia de la Memoria", artista: "Salvador Dalí", puja: 95000, icono: "img/productos/persistencia.jpg", estilo: "Surrealismo", vip: false },
-    { id: 3, titulo: "El Grito", artista: "Edvard Munch", puja: 110000, icono: "img/productos/el_grito.jpg", estilo: "Expresionismo", vip: false },
-    { id: 4, titulo: "Mona Lisa", artista: "Leonardo da Vinci", puja: 850000, icono: "🎨", estilo: "Renacimiento", vip: false },
-    { id: 5, titulo: "Guernica", artista: "Pablo Picasso", puja: 300000, icono: "🎨", estilo: "Cubismo", vip: false },
-    { id: 6, titulo: "La Joven de la Perla", artista: "Johannes Vermeer", puja: 75000, icono: "🎨", estilo: "Renacimiento", vip: false },
-    { id: 7, titulo: "El Beso", artista: "Gustav Klimt", puja: 150000, icono: "🎨", estilo: "Surrealismo", vip: false },
-    { id: 8, titulo: "Las Meninas", artista: "Diego Velázquez", puja: 200000, icono: "🎨", estilo: "Renacimiento", vip: false },
-    { id: 9, titulo: "Nacimiento de Venus", artista: "Sandro Botticelli", puja: 180000, icono: "🎨", estilo: "Renacimiento", vip: false },
-    { id: 10, titulo: "Creación de Adán", artista: "Miguel Ángel", puja: 400000, icono: "🎨", estilo: "Renacimiento", vip: false }
+    { id: 1, titulo: "Noche Estrellada", artista: "Vincent Van Gogh", puja: 120000, icono: "img/productos/obra1.jpg", estilo: "Postimpresionismo", vip: false },
+    { id: 2, titulo: "La Persistencia de la Memoria", artista: "Salvador Dalí", puja: 95000, icono: "img/productos/obra2.jpg", estilo: "Surrealismo", vip: false },
+    { id: 3, titulo: "El Grito", artista: "Edvard Munch", puja: 110000, icono: "img/productos/obra3.jpg", estilo: "Expresionismo", vip: false },
+    { id: 4, titulo: "Mona Lisa", artista: "Leonardo da Vinci", puja: 850000, icono: "img/productos/obra4.jpg", estilo: "Renacimiento", vip: false },
+    { id: 5, titulo: "Guernica", artista: "Pablo Picasso", puja: 300000, icono: "img/productos/obra5.jpg", estilo: "Cubismo", vip: false },
+    { id: 6, titulo: "La Joven de la Perla", artista: "Johannes Vermeer", puja: 75000, icono: "img/productos/obra6.jpg", estilo: "Renacimiento", vip: false },
+    { id: 7, titulo: "El Beso", artista: "Gustav Klimt", puja: 150000, icono: "img/productos/obra7.jpg", estilo: "Surrealismo", vip: false },
+    { id: 8, titulo: "Las Meninas", artista: "Diego Velázquez", puja: 200000, icono: "img/productos/obra8.jpg", estilo: "Renacimiento", vip: false },
+    { id: 9, titulo: "Nacimiento de Venus", artista: "Sandro Botticelli", puja: 180000, icono: "img/productos/obra9.jpg", estilo: "Renacimiento", vip: false },
+    { id: 10, titulo: "Creación de Adán", artista: "Miguel Ángel", puja: 400000, icono: "img/productos/obra10.jpg", estilo: "Renacimiento", vip: false }
 ];
 
-// Integrantes precargados sincronizados exactamente con los nombres de archivo de tu carpeta 'img/equipo/'
+// Integrantes del equipo precargados exactamente con los datos de tu captura
+// Solo renombra las fotos de tus compañeros a integrante1.jpg, integrante2.jpg, etc., dentro de 'img/equipo/'
 const equipoPreCargado = [
-    { id: 1, nombre: "Jonathan Eli", rol: "Ingeniería en Sistemas", carnet: "JE202601", imagen: "img/equipo/integrante1.jpg" },
-    { id: 2, nombre: "Brandon", rol: "Frontend Developer", carnet: "BR202602", imagen: "img/equipo/integrante2.jpg" },
-    { id: 3, nombre: "Katherine Peña", rol: "JS Developer", carnet: "KP202604", imagen: "img/equipo/integrante3.jpg" }
+    { id: 1, nombre: "BRANDON GEOVANNY RIVERA OLIVO", rol: "Ciberseguridad", carnet: "27581", imagen: "img/equipo/integrante1.jpg" },
+    { id: 2, nombre: "JONATHAN ELI MAYE AREVALO", rol: "Full Stack", carnet: "27291", imagen: "img/equipo/integrante2.jpg" },
+    { id: 3, nombre: "JOSE ALEXANDER RECINOS SERMEÑO", rol: "Ciberseguridad", carnet: "27189", imagen: "img/equipo/integrante3.jpg" },
+    { id: 4, nombre: "BRANDON ISRAEL PEREZ AREVALO", rol: "Data cientifico", carnet: "27187", imagen: "img/equipo/integrante4.jpg" },
+    { id: 5, nombre: "GILBERTO JOSE QUINTANILLA SARMIENTO", rol: "Analista", carnet: "27729", imagen: "img/equipo/integrante5.jpg" }
 ];
 
 // Carga del estado desde LocalStorage o arreglos por defecto
@@ -37,7 +45,6 @@ let integrantes = JSON.parse(localStorage.getItem('galeria_equipo')) || equipoPr
 // Variables de control de UI
 let obraActualId = null;
 let ordenAscendente = true;
-
 // ==========================================
 // 2. CONTROLADOR DE EVENTOS DOM (Ciclo de Vida)
 // ==========================================
