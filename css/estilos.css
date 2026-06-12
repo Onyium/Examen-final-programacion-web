@@ -1,4 +1,4 @@
-/* Variables y reseteo base */
+
 :root {
     --bg-dark: #121212;
     --bg-card: #1e1e1e;
@@ -24,7 +24,7 @@ body {
     color: var(--text-main);
 }
 
-/* Navegación (Flexbox) */
+
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -44,12 +44,12 @@ body {
     font-size: 1.2rem;
 }
 
-/* Añade esta nueva clase abajo para controlar las dimensiones del logo */
+
 .logo-img {
-    height: 40px; /* Altura ideal para que no deforme la navbar */
+    height: 40px; 
     width: auto;
     object-fit: contain;
-    border-radius: 4px; /* Opcional: por si tu logo es cuadrado/circular y quieres bordes suaves */
+    border-radius: 4px; 
 }
 .nav-links a {
     color: var(--text-muted);
@@ -65,7 +65,7 @@ body {
     color: var(--text-main);
 }
 
-/* Layout Principal (Grid) */
+
 .dashboard-grid {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -125,7 +125,6 @@ body {
 .drop-zone p { color: var(--text-muted); margin-top: 2rem; }
 .drop-zone.dragover { border-color: var(--primary); background-color: rgba(0, 168, 255, 0.05); }
 
-/* CRUD Layout */
 .crud-layout, .team-layout {
     padding: 2rem;
 }
@@ -168,7 +167,6 @@ input:focus, select:focus {
     border-color: var(--primary);
 }
 
-/* Tablas */
 .data-table {
     width: 100%;
     border-collapse: collapse;
@@ -183,7 +181,7 @@ input:focus, select:focus {
 
 .data-table th { color: var(--text-muted); font-size: 0.85rem; }
 
-/* Botones */
+
 button {
     padding: 0.6rem 1.2rem;
     border: none;
@@ -200,7 +198,7 @@ button {
 .btn-danger:hover { background-color: rgba(255, 71, 87, 0.1); }
 .w-100 { width: 100%; }
 
-/* Modales */
+
 .modal {
     margin: auto;
     padding: 2rem;
@@ -213,7 +211,7 @@ button {
 .modal::backdrop { background-color: rgba(0, 0, 0, 0.7); }
 .modal-actions { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1.5rem; }
 
-/* Mensajes Toast (Éxito/Error) */
+
 .toast {
     position: fixed;
     bottom: 20px;
