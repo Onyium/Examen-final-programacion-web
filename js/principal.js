@@ -25,7 +25,7 @@ const obrasPreCargadas = [
 
 // Integrantes del equipo precargados con Código de Estudiante y Número de Expediente por separado
 const equipoPreCargado = [
-    { id: 1, nombre: "BRANDON GEOVANNY RIVERA OLIVO", rol: "Ciberseguridad", codigoEstudiante: "USO-27581", expediente: "27581", imagen: "img/equipo/integrante1.jpg" },
+    { id: 1, nombre: "BRANDON GEOVANNY RIVERA OLIVO", rol: "Ciberseguridad", codigoEstudiante: "RO24-I04-001", expediente: "27581", imagen: "img/equipo/integrante1.jpg" },
     { id: 2, nombre: "JONATHAN ELI MAYE AREVALO", rol: "Full Stack", codigoEstudiante: "MA24-I04-001", expediente: "27291", imagen: "img/equipo/integrante2.jpg" },
     { id: 3, nombre: "JOSE ALEXANDER RECINOS SERMEÑO", rol: "Ciberseguridad", codigoEstudiante: "RS24-I04-001", expediente: "27189", imagen: "img/equipo/integrante3.jpg" },
     { id: 4, nombre: "BRANDON ISRAEL PEREZ AREVALO", rol: "Data cientifico", codigoEstudiante: "PA24-I04-001", expediente: "27187", imagen: "img/equipo/integrante4.jpg" },
