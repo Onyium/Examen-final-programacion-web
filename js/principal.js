@@ -23,18 +23,18 @@ const obrasPreCargadas = [
     { id: 10, titulo: "Creación de Adán", artista: "Miguel Ángel", puja: 400000, icono: "img/productos/obra10.jpg", estilo: "Renacimiento", vip: false }
 ];
 
-// Integrantes del equipo precargados exactamente con los datos reales de tus capturas
+// Integrantes del equipo precargados con Código de Estudiante y Número de Expediente por separado
 const equipoPreCargado = [
-    { id: 1, nombre: "BRANDON GEOVANNY RIVERA OLIVO", rol: "Ciberseguridad", carnet: "27581", imagen: "img/equipo/integrante1.jpg" },
-    { id: 2, nombre: "JONATHAN ELI MAYE AREVALO", rol: "Full Stack", carnet: "27291", imagen: "img/equipo/integrante2.jpg" },
-    { id: 3, nombre: "JOSE ALEXANDER RECINOS SERMEÑO", rol: "Ciberseguridad", carnet: "27189", imagen: "img/equipo/integrante3.jpg" },
-    { id: 4, nombre: "BRANDON ISRAEL PEREZ AREVALO", rol: "Data cientifico", carnet: "27187", imagen: "img/equipo/integrante4.jpg" },
-    { id: 5, nombre: "GILBERTO JOSE QUINTANILLA SARMIENTO", rol: "Analista", carnet: "27729", imagen: "img/equipo/integrante5.jpg" }
+    { id: 1, nombre: "BRANDON GEOVANNY RIVERA OLIVO", rol: "Ciberseguridad", codigoEstudiante: "USO-27581", expediente: "27581", imagen: "img/equipo/integrante1.jpg" },
+    { id: 2, nombre: "JONATHAN ELI MAYE AREVALO", rol: "Full Stack", codigoEstudiante: "MA24-I04-001", expediente: "27291", imagen: "img/equipo/integrante2.jpg" },
+    { id: 3, nombre: "JOSE ALEXANDER RECINOS SERMEÑO", rol: "Ciberseguridad", codigoEstudiante: "RS24-I04-001", expediente: "27189", imagen: "img/equipo/integrante3.jpg" },
+    { id: 4, nombre: "BRANDON ISRAEL PEREZ AREVALO", rol: "Data cientifico", codigoEstudiante: "PA24-I04-001", expediente: "27187", imagen: "img/equipo/integrante4.jpg" },
+    { id: 5, nombre: "GILBERTO JOSE QUINTANILLA SARMIENTO", rol: "Analista", codigoEstudiante: "QS24-I04-001", expediente: "27729", imagen: "img/equipo/integrante5.jpg" }
 ];
 
-// SOLUCIÓN DE CACHÉ: Se renombraron las llaves a '_final' para forzar al navegador a leer el código nuevo
-let obras = JSON.parse(localStorage.getItem('galeria_obras_final')) || obrasPreCargadas;
-let integrantes = JSON.parse(localStorage.getItem('galeria_equipo_final')) || equipoPreCargado;
+// SOLUCIÓN DE CACHÉ V3: Forzamos una nueva lectura limpia para separar Código y Expediente
+let obras = JSON.parse(localStorage.getItem('galeria_obras_v3')) || obrasPreCargadas;
+let integrantes = JSON.parse(localStorage.getItem('galeria_equipo_v3')) || equipoPreCargado;
 
 // Variables de control de la interfaz
 let obraActualId = null;
@@ -45,7 +45,6 @@ let ordenAscendente = true;
 // ==========================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Inicialización selectiva dependiendo de la vista HTML en la que se encuentre el usuario
     if (document.getElementById('galeriaContenedor')) {
         renderizarGaleria();
         inicializarDragAndDrop();
@@ -66,7 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /**
  * FUNCIÓN 1: Renderizar Galería Principal y Salón VIP
- * Manipula el DOM para construir las tarjetas dinámicamente evaluando si el recurso es imagen o emoji.
  */
 function renderizarGaleria(obrasFiltradas = obras) {
     const contenedor = document.getElementById('galeriaContenedor');
@@ -74,7 +72,6 @@ function renderizarGaleria(obrasFiltradas = obras) {
     
     if (!contenedor) return;
 
-    // Limpieza estructural de los contenedores
     contenedor.innerHTML = '';
     const elementosVIP = zonaVIP.querySelectorAll('.card');
     elementosVIP.forEach(el => el.remove());
@@ -85,7 +82,6 @@ function renderizarGaleria(obrasFiltradas = obras) {
         card.draggable = true;
         card.dataset.id = obra.id;
         
-        // Validación de recursos: detecta extensiones o rutas relativas
         const esRutaImagen = obra.icono && (obra.icono.includes('.') || obra.icono.includes('/'));
         const contenidoVisual = esRutaImagen 
             ? `<img src="${obra.icono}" alt="${obra.titulo}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;">`
@@ -101,13 +97,11 @@ function renderizarGaleria(obrasFiltradas = obras) {
             <button class="btn-secondary w-100" style="margin-top: 10px" onclick="abrirModalPuja(${obra.id})">Pujar</button>
         `;
 
-        // Evento nativo de arrastre
         card.addEventListener('dragstart', (e) => {
             e.dataTransfer.setData('text/plain', obra.id);
             e.dataTransfer.effectAllowed = 'move';
         });
 
-        // Ubicación lógica en el contenedor correspondiente
         if (obra.vip) {
             zonaVIP.appendChild(card);
         } else {
@@ -118,7 +112,6 @@ function renderizarGaleria(obrasFiltradas = obras) {
 
 /**
  * FUNCIÓN 2: Implementación de Drag & Drop Nativo
- * Administra los estados visuales y transfiere datos en memoria local tras el drop.
  */
 function inicializarDragAndDrop() {
     const zonaVIP = document.getElementById('zonaVIP');
@@ -157,7 +150,6 @@ function inicializarDragAndDrop() {
 
 /**
  * FUNCIÓN 3: Agregar y Validar Obras (Inventario CRUD)
- * Valida reglas de negocio del formulario e integra las rutas hacia 'img/productos/'.
  */
 function agregarObra(e) {
     e.preventDefault();
@@ -173,7 +165,6 @@ function agregarObra(e) {
         return;
     }
 
-    // Formateo automático de rutas locales de imágenes
     if (entradaIcono.includes('.') && !entradaIcono.startsWith('img/') && !entradaIcono.startsWith('http')) {
         entradaIcono = `img/productos/${entradaIcono}`;
     }
@@ -197,7 +188,6 @@ function agregarObra(e) {
 
 /**
  * FUNCIÓN 4: Filtrado y Ordenación Algorítmica del Catálogo
- * Ordena mediante la evaluación secuencial de valores de puja monetaria.
  */
 function filtrarYOrdenar() {
     const estiloFiltro = document.getElementById('filtroEstilo').value;
@@ -217,14 +207,13 @@ function ordenarPorValor() {
 
 /**
  * FUNCIÓN 5: Control de Ventanas Modales y Validación de Ofertas
- * Despliega modales nativos controlando que las nuevas ofertas venzan la puja anterior.
  */
 function abrirModalPuja(id) {
     obraActualId = id;
     const obra = obras.find(o => o.id === id);
     document.getElementById('obraTituloPuja').textContent = obra.titulo;
     document.getElementById('pujaActualTexto').textContent = `$${obra.puja.toLocaleString()}`;
-    document.getElementById('nuevaPuja').value = obra.puja + 250; // Incremento sugerido base
+    document.getElementById('nuevaPuja').value = obra.puja + 250; 
     document.getElementById('modalPuja').showModal();
 }
 
@@ -292,7 +281,7 @@ function eliminarObra(id) {
 }
 
 /**
- * CRUD Dinámico del Equipo (integrantes.html)
+ * CRUD Dinámico del Equipo (integrantes.html) - Muestra Código y Expediente por separado
  */
 function renderizarEquipo() {
     const grid = document.getElementById('gridIntegrantes');
@@ -306,14 +295,15 @@ function renderizarEquipo() {
             : int.imagen;
 
         grid.innerHTML += `
-            <div class="card" style="display: flex; gap: 1rem; align-items: center; cursor: default;">
+            <div class="card" style="display: flex; gap: 1rem; align-items: center; cursor: default; width: calc(50% - 0.75rem);">
                 <div style="width: 80px; height: 80px; background: #1a1a1a; display: flex; justify-content: center; align-items: center; border-radius: 8px; overflow: hidden; flex-shrink: 0; border: 1px solid var(--border-color);">
                     ${contenidoVisual}
                 </div>
                 <div style="flex: 1">
-                    <h3 style="margin-bottom: 5px">${int.nombre}</h3>
-                    <p style="color: var(--primary); margin-bottom: 5px">${int.rol}</p>
-                    <p style="color: var(--text-muted); font-size: 0.85rem;">Carnet: ${int.carnet}</p>
+                    <h3 style="margin-bottom: 5px; font-size: 1rem; line-height: 1.2;">${int.nombre}</h3>
+                    <p style="color: var(--primary); margin-bottom: 5px; font-size: 0.9rem;">${int.rol}</p>
+                    <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 2px;">Cod: ${int.codigoEstudiante}</p>
+                    <p style="color: var(--text-muted); font-size: 0.8rem;">Exp: ${int.expediente}</p>
                 </div>
                 <div>
                     <button class="btn-danger" onclick="eliminarIntegrante(${int.id})">🗑️</button>
@@ -331,16 +321,17 @@ function guardarIntegrante(e) {
     
     let entradaImagen = document.getElementById('intImagen').value.trim();
     
-    // Autocompletado de imágenes de la carpeta equipo
     if (!entradaImagen.startsWith('img/') && !entradaImagen.startsWith('http') && entradaImagen !== "") {
         entradaImagen = `img/equipo/${entradaImagen}`;
     }
 
+    // Almacena ambos campos por separado obtenidos del nuevo formulario HTML
     const nuevoInt = {
         id: Date.now(),
         nombre: document.getElementById('intNombre').value.trim().toUpperCase(),
         rol: document.getElementById('intRol').value.trim(),
-        carnet: document.getElementById('intCarnet').value.trim(),
+        codigoEstudiante: document.getElementById('intCodigo').value.trim(),
+        expediente: document.getElementById('intExpediente').value.trim(),
         imagen: entradaImagen || "👨‍🎓" 
     };
     
@@ -362,11 +353,11 @@ function eliminarIntegrante(id) {
 }
 
 /**
- * Persistencia en LocalStorage compartida entre ventanas
+ * Persistencia en LocalStorage Compartida con clave _v3
  */
 function guardarEnMemoria() {
-    localStorage.setItem('galeria_obras_final', JSON.stringify(obras));
-    localStorage.setItem('galeria_equipo_final', JSON.stringify(integrantes));
+    localStorage.setItem('galeria_obras_v3', JSON.stringify(obras));
+    localStorage.setItem('galeria_equipo_v3', JSON.stringify(integrantes));
 }
 
 function mostrarMensaje(msg, tipo) {
