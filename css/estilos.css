@@ -34,12 +34,23 @@ body {
     border-bottom: 1px solid var(--border-color);
 }
 
+/* Busca .logo en tu estilos.css y reemplázalo por esto */
 .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Espacio exacto entre la imagen del logo y el texto */
     font-weight: bold;
     color: var(--primary);
     font-size: 1.2rem;
 }
 
+/* Añade esta nueva clase abajo para controlar las dimensiones del logo */
+.logo-img {
+    height: 40px; /* Altura ideal para que no deforme la navbar */
+    width: auto;
+    object-fit: contain;
+    border-radius: 4px; /* Opcional: por si tu logo es cuadrado/circular y quieres bordes suaves */
+}
 .nav-links a {
     color: var(--text-muted);
     text-decoration: none;

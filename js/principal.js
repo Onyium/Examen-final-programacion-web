@@ -32,7 +32,7 @@ const equipoPreCargado = [
     { id: 5, nombre: "GILBERTO JOSE QUINTANILLA SARMIENTO", rol: "Analista", codigoEstudiante: "QS24-I04-001", expediente: "27729", imagen: "img/equipo/integrante5.jpg" }
 ];
 
-// SOLUCIÓN DE CACHÉ V3: Forzamos una nueva lectura limpia para separar Código y Expediente
+
 let obras = JSON.parse(localStorage.getItem('galeria_obras_v3')) || obrasPreCargadas;
 let integrantes = JSON.parse(localStorage.getItem('galeria_equipo_v3')) || equipoPreCargado;
 
@@ -352,9 +352,7 @@ function eliminarIntegrante(id) {
     }
 }
 
-/**
- * Persistencia en LocalStorage Compartida con clave _v3
- */
+
 function guardarEnMemoria() {
     localStorage.setItem('galeria_obras_v3', JSON.stringify(obras));
     localStorage.setItem('galeria_equipo_v3', JSON.stringify(integrantes));
