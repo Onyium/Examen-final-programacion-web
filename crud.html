@@ -9,19 +9,28 @@
 <body>
     <header class="navbar">
         <div class="logo">
-            <img src="img/logo/logo.png" alt="Logo Galería" class="logo-img">
+            <img src="img/logo/logo.png" alt="Logo" class="logo-img">
             <span>GALERÍA DE ARTE Y SUBASTAS</span>
         </div>
         <nav class="nav-links">
-            <a href="index.html">🎮 Prototipo</a>
-            <a href="crud.html" class="active">📦 Inventario (CRUD)</a>
-            <a href="integrantes.html">👥 Equipo (CRUD)</a>
+            <a href="index.html" class="nav-item">
+                <img src="img/logo/nav_prototipo.png" alt="" class="nav-icon">
+                <span>Prototipo</span>
+            </a>
+            <a href="crud.html" class="nav-item active">
+                <img src="img/logo/nav_inventario.png" alt="" class="nav-icon">
+                <span>Inventario (CRUD)</span>
+            </a>
+            <a href="integrantes.html" class="nav-item">
+                <img src="img/logo/nav_equipo.png" alt="" class="nav-icon">
+                <span>Equipo (CRUD)</span>
+            </a>
         </nav>
     </header>
 
     <main class="crud-layout">
         <aside class="crud-form">
-            <h2>➕ REGISTRAR NUEVO ELEMENTO</h2>
+            <h2>REGISTRAR NUEVO ELEMENTO</h2>
             <p class="subtitle">Sincronizado con memoria local</p>
             <form id="formObra">
                 <div class="form-row">
@@ -36,12 +45,12 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Puja Inicial ($)</label>
-                        <input type="number" id="puja" required min="1">
+                        <label>Imagen de la Obra (Ej: obra1.jpg o URL)</label>
+                        <input type="text" id="icono" required placeholder="obra1.jpg">
                     </div>
                     <div class="form-group">
-                        <label>Imagen de la Obra (Ej: noche_estrellada.jpg o emoji)</label>
-                        <input type="text" id="icono" required placeholder="noche_estrellada.jpg">
+                        <label>Puja Inicial ($)</label>
+                        <input type="number" id="puja" required min="1">
                     </div>
                 </div>
                 <div class="form-group">
@@ -70,7 +79,7 @@
                         <th>TÍTULO OBRA</th>
                         <th>ARTISTA</th>
                         <th>PUJA ACTUAL</th>
-                        <th>ESTILO</th>
+                        <th>ESTILE</th>
                         <th>ACCIONES</th>
                     </tr>
                 </thead>

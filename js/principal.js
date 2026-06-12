@@ -174,7 +174,7 @@ function agregarObra(e) {
         titulo,
         artista,
         puja,
-        icono: entradaIcono || "🎨",
+        icono: entradaIcono || "img/logo/logo.png",
         estilo,
         vip: false
     };

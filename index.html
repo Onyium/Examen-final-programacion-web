@@ -9,20 +9,32 @@
 <body>
     <header class="navbar">
         <div class="logo">
-            <img src="img/logo/logo.png" alt="Logo Galería" class="logo-img">
+            <img src="img/logo/logo.png" alt="Logo" class="logo-img">
             <span>GALERÍA DE ARTE Y SUBASTAS</span>
         </div>
         <nav class="nav-links">
-            <a href="index.html" class="active">🎮 Prototipo</a>
-            <a href="crud.html">📦 Inventario (CRUD)</a>
-            <a href="integrantes.html">👥 Equipo (CRUD)</a>
+            <a href="index.html" class="nav-item active">
+                <img src="img/logo/nav_prototipo.png" alt="" class="nav-icon">
+                <span>Prototipo</span>
+            </a>
+            <a href="crud.html" class="nav-item">
+                <img src="img/logo/nav_inventario.png" alt="" class="nav-icon">
+                <span>Inventario (CRUD)</span>
+            </a>
+            <a href="integrantes.html" class="nav-item">
+                <img src="img/logo/nav_equipo.png" alt="" class="nav-icon">
+                <span>Equipo (CRUD)</span>
+            </a>
         </nav>
     </header>
 
     <main class="dashboard-grid">
         <section class="gallery-section">
             <div class="section-header">
-                <h2>🖼️ GALERÍA EN VENTA / SUBASTA</h2>
+                <div class="title-with-icon">
+                    <img src="img/logo/icon_galeria.png" alt="" class="title-icon">
+                    <h2>GALERÍA EN VENTA / SUBASTA</h2>
+                </div>
                 <div class="controls">
                     <select id="filtroEstilo" onchange="filtrarYOrdenar()">
                         <option value="Todos">Todos los estilos</option>
@@ -40,7 +52,10 @@
         </section>
 
         <section class="vip-section">
-            <h2>👑 Salón de Exhibición VIP</h2>
+            <div class="title-with-icon">
+                <img src="img/logo/icon_vip.png" alt="" class="title-icon">
+                <h2>Salón de Exhibición VIP</h2>
+            </div>
             <div id="zonaVIP" class="drop-zone">
                 <p>Arrastra obras artísticas VIP aquí</p>
                 </div>

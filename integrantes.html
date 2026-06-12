@@ -9,13 +9,22 @@
 <body>
     <header class="navbar">
         <div class="logo">
-            <img src="img/logo/logo.png" alt="Logo Galería" class="logo-img">
+            <img src="img/logo/logo.png" alt="Logo" class="logo-img">
             <span>GALERÍA DE ARTE Y SUBASTAS</span>
         </div>
         <nav class="nav-links">
-            <a href="index.html">🎮 Prototipo</a>
-            <a href="crud.html">📦 Inventario (CRUD)</a>
-            <a href="integrantes.html" class="active">👥 Equipo (CRUD)</a>
+            <a href="index.html" class="nav-item">
+                <img src="img/logo/nav_prototipo.png" alt="" class="nav-icon">
+                <span>Prototipo</span>
+            </a>
+            <a href="crud.html" class="nav-item">
+                <img src="img/logo/nav_inventario.png" alt="" class="nav-icon">
+                <span>Inventario (CRUD)</span>
+            </a>
+            <a href="integrantes.html" class="nav-item active">
+                <img src="img/logo/nav_equipo.png" alt="" class="nav-icon">
+                <span>Equipo (CRUD)</span>
+            </a>
         </nav>
     </header>
 
@@ -25,7 +34,7 @@
                 <h2>Equipo de Estudiantes Desarrolladores</h2>
                 <p class="subtitle">Mantenimiento de Datos del Grupo de Trabajo (CRUD de Memoria)</p>
             </div>
-            <button class="btn-primary" onclick="abrirModalIntegrante()">➕ Registrar Integrante</button>
+            <button class="btn-primary" onclick="abrirModalIntegrante()">Registrar Integrante</button>
         </div>
 
         <div id="gridIntegrantes" class="cards-grid">
@@ -52,8 +61,8 @@
                 <input type="text" id="intExpediente" required placeholder="Ej: 27291">
             </div>
             <div class="form-group">
-                <label>Imagen (Ej: integrante01.jpg o ruta completa)</label>
-                <input type="text" id="intImagen" placeholder="integrante01.jpg" required>
+                <label>Imagen (Ej: integrante1.jpg o ruta completa)</label>
+                <input type="text" id="intImagen" placeholder="integrante1.jpg" required>
             </div>
             <div class="modal-actions">
                 <button type="button" class="btn-danger" onclick="cerrarModalIntegrante()">Cancelar</button>
